@@ -1,1 +1,18 @@
-v2
+v3
+
+
+function(doc) {
+var cur_date = new Date();
+var date = doc.From.substring(0, 2);
+var month = doc.From.substring(3, 6);
+var month_no=new Date(Date.parse(month+" 1, 2012")).getMonth();
+var year = doc.From.substring(7, 11);
+
+var leave_date=new Date(year,month_no, date);
+
+var no_of_days=Math.floor((leave_date-cur_date)/(1000*60*60*24));
+
+if(doc.Type=='Leave' && no_of_days>0 && doc.R_Status=='Accepted')
+  emit([doc.Client_ID,doc.User],[no_of_days]);
+
+}
